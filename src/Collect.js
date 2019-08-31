@@ -2,8 +2,9 @@ import React, { useCallback, useState } from 'react'
 import Div100vh from 'react-div-100vh'
 import { useDropzone } from 'react-dropzone'
 
-import './Collect.css'
+import { API_URL } from './api'
 import stripUrl from './strip.png'
+import './Collect.css'
 
 const IDLE = 1
 const UPLOADING = 2
@@ -30,7 +31,7 @@ function Collect() {
     }
 
     setState(UPLOADING)
-    fetch('https://kazoo.free.beeceptor.com/upload', {
+    fetch(`${API_URL}/upload`, {
       method: 'POST',
       body: data,
     }).then((data) => {
