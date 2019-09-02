@@ -4,6 +4,7 @@ import { useDropzone } from 'react-dropzone'
 
 import { API_URL, checkResponse } from './api'
 import stripUrl from './strip.png'
+import GDPRNotice from './GDPRNotice'
 import './Collect.css'
 
 const IDLE = 1
@@ -13,7 +14,7 @@ const ERROR = 4
 
 function getText(state) {
   switch (state) {
-    case IDLE: return 'Aruncă cu o poză spre noi!'
+    case IDLE: return 'Aruncă cu o poză în noi!'
     case UPLOADING: return 'Se încarcă poza...'
     case DONE: return 'Mulțumiim ❤️!\nDacă te lasă inima, mai bagă una!'
     case ERROR: return 'Ne pare rău 😢. Ceva nu a mers.\n Dar mai încearcă!'
@@ -47,19 +48,28 @@ function Collect() {
     multiple: true,
   })
 
+  const [ gdprAccepted, setGdprAccepted ] = useState(false)
+
+  const onAcceptGDPR = useCallback(() => setGdprAccepted(true), [])
+
   return (
     <Div100vh className="collect">
-      <div {...getRootProps()} className="dropzone">
-        <input {...getInputProps()} />
-        <div className="dropzoneContainer">
-          {
-            isDragActive ?
-              <p>Trântește-o aici</p> :
-              <p>{getText(state)}</p>
-          }
-        </div>
-      </div>
-      <img alt="" src={stripUrl} className="strip" />
+      {gdprAccepted && (
+        <>
+          <div {...getRootProps()} className="dropzone">
+            <input {...getInputProps()} />
+            <div className="dropzoneContainer">
+              {
+                isDragActive ?
+                  <p>Trântește-o aici</p> :
+                  <p>{getText(state)}</p>
+              }
+            </div>
+          </div>
+          <img alt="" src={stripUrl} className="strip" />
+        </>
+      )}
+      {!gdprAccepted && <GDPRNotice onAccept={onAcceptGDPR} />}
     </Div100vh>
   )
 }

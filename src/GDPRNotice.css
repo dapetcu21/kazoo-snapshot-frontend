@@ -1,0 +1,38 @@
+.gdpr {
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.gdprText {
+  flex-shrink: 0;
+  text-align: center;
+  max-width: 450px;
+  margin-left: 16px;
+  margin-right: 16px;
+}
+
+.gdprButton {
+  flex-shrink: 0;
+  margin: 16px;
+
+  background-color: white;
+  color: #102329;
+  border: 0px transparent none;
+  border-radius: 8px;
+  padding: 16px;
+  font-size: 16px;
+
+  transition: opacity 0.3s ease;
+}
+
+.gdprButton:hover {
+  opacity: 0.6;
+}
+
+.gdprButton:active, .gdprButton:focus {
+  opacity: 0.4;
+  outline: none;
+}
