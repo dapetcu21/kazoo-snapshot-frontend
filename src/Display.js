@@ -1,14 +1,29 @@
 import React, { useState, useEffect } from 'react'
 import Div100vh from 'react-div-100vh'
+import QRCode from 'qrcode.react'
 
 import { API_URL, socket } from './api'
 
 import './Display.css'
 
-function renderImage(image) {
+function renderImage(image, { width, height }) {
   if (!image) { return null; }
 
-  if (image === 'qr') { return 'QR'; }
+  if (image === 'qr') {
+    const urlComponents = window.location.href.split('/')
+    if (urlComponents[urlComponents.length - 1] === '') { urlComponents.pop(); }
+    urlComponents.pop()
+    const url = urlComponents.join('/')
+
+    const size = Math.min(height * 0.8, width)
+
+    return (
+      <div className="qrContainer">
+        <QRCode value={url} includeMargin size={size} />
+        <div className="qrURL">{url}</div>
+      </div>
+    )
+  }
 
   return (
     <div
@@ -50,11 +65,28 @@ export default function Display() {
     return () => socket.off('show_qr', fn)
   }, [])
 
+  const [ windowMetrics, setWindowMetrics ] = useState({
+    width: document.documentElement.clientWidth,
+    height: document.documentElement.clientHeight,
+  })
+
+  useEffect(() => {
+    const fn = () => {
+      setWindowMetrics({
+        width: document.documentElement.clientWidth,
+        height: document.documentElement.clientHeight,
+      })
+    }
+
+    window.addEventListener('resize', fn)
+    return () => { window.removeEventListener('resize', fn) }
+  }, [])
+
   return (
     <>
       <style>{'body { background: #000; }'}</style>
       <Div100vh className="displayContainer">
-        {renderImage(image)}
+        {renderImage(image, windowMetrics)}
       </Div100vh>
     </>
   )

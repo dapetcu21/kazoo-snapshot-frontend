@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "classnames": "^2.2.6",
+    "qrcode.react": "^0.9.3",
     "react": "^16.9.0",
     "react-div-100vh": "^0.3.4",
     "react-dom": "^16.9.0",

@@ -13,3 +13,14 @@
   background-size: contain;
   background-repeat: no-repeat;
 }
+
+.qrContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.qrURL {
+  font-size: 8vh;
+  margin-top: 2vh;
+}
