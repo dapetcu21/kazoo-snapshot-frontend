@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import classNames from 'classnames'
 
 import './Admin.css'
@@ -30,11 +30,7 @@ export default function Admin() {
     return () => socket.off('image_upload', fn)
   })
 
-  if (error) {
-    return <div>{error.toString()}</div>
-  }
-
-  const onNewImage = () => {
+  const onNewImage = useCallback(() => {
     fetch(`${API_URL}/new_image`, { method: 'POST' })
       .then(checkResponse)
       .then(res => res.json())
@@ -44,16 +40,36 @@ export default function Admin() {
           : image
         )))
       })
-  }
+  }, [setImages])
 
-  const onHideImage = () => {
+  const onHideImage = useCallback(() => {
     fetch(`${API_URL}/hide_image`, { method: 'POST' })
       .then(checkResponse)
-  }
+  }, [])
 
-  const onShowQR = () => {
+  const onShowQR = useCallback(() => {
     fetch(`${API_URL}/show_qr`, { method: 'POST' })
       .then(checkResponse)
+  }, [])
+
+  useEffect(() => {
+    const fn = (evt) => {
+      const { key } = evt
+      if (key === 'r') {
+        onNewImage()
+      } else if (key === 'h') {
+        onHideImage()
+      } else if (key === 'q') {
+        onShowQR()
+      }
+    }
+
+    document.addEventListener('keydown', fn)
+    return () => document.removeEventListener('keydown', fn)
+  }, [onNewImage, onHideImage, onShowQR])
+
+  if (error) {
+    return <div>{error.toString()}</div>
   }
 
   const onDeleteImage = (id) => () => {
@@ -73,9 +89,9 @@ export default function Admin() {
   return (
     <div>
       <div>
-        <button onClick={onNewImage}>Show random image</button>
-        <button onClick={onHideImage}>Hide image</button>
-        <button onClick={onShowQR}>Show QR</button>
+        <button onClick={onNewImage}>Show random image (R)</button>
+        <button onClick={onHideImage}>Hide image (H)</button>
+        <button onClick={onShowQR}>Show QR (Q)</button>
       </div>
       <div className="adminImages">
         {images.map(image => {
