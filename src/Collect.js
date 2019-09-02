@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react'
 import Div100vh from 'react-div-100vh'
 import { useDropzone } from 'react-dropzone'
 
-import { API_URL } from './api'
+import { API_URL, checkResponse } from './api'
 import stripUrl from './strip.png'
 import './Collect.css'
 
@@ -34,7 +34,7 @@ function Collect() {
     fetch(`${API_URL}/upload`, {
       method: 'POST',
       body: data,
-    }).then((data) => {
+    }).then(checkResponse).then((data) => {
       setState(DONE)
     }, (err) => {
       console.error(err)

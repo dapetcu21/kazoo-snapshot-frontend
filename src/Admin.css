@@ -1,0 +1,26 @@
+.adminImages {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.adminImage {
+  flex-basis: 0;
+  margin: 8px;
+}
+
+.adminImageUsed .adminImageImg {
+  border-color: red;
+}
+
+.adminImageImg {
+  width: 25%;
+  min-width: 200px;
+  height: auto;
+  border: 2px transparent solid;
+  cursor: pointer;
+}
+
+.adminImageImg:hover {
+  opacity: 0.5;
+}
