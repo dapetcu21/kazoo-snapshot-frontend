@@ -28,7 +28,7 @@ export default function Admin() {
 
     socket.on('image_upload', fn)
     return () => socket.off('image_upload', fn)
-  })
+  }, [])
 
   const onNewImage = useCallback(() => {
     fetch(`${API_URL}/new_image`, { method: 'POST' })
