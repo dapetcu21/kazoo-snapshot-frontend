@@ -1,6 +1,6 @@
 import io from 'socket.io-client'
 
-export const API_URL = process.env.REACT_APP_API_URL || 'http://api.kazoo.ro'
+export const API_URL = process.env.REACT_APP_API_URL || 'https://api.kazoo.ro'
 
 export const socket = io(API_URL);
 
