@@ -1,10 +1,27 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import Div100vh from 'react-div-100vh'
 import QRCode from 'qrcode.react'
 
 import { API_URL, socket } from './api'
 
 import './Display.css'
+
+function Image(props) {
+  const [ loadedSrc, setLoadedSrc ] = useState(null)
+
+  const onLoad = useCallback(() => {
+    setLoadedSrc(props.src)
+  }, [props.src, setLoadedSrc])
+
+  return (
+    <img
+      alt=""
+      {...props}
+      style={{ opacity: loadedSrc === props.src ? 1 : 0 }}
+      onLoad={onLoad}
+    />
+  )
+}
 
 function renderImage(image, { width, height }) {
   if (!image) { return null; }
@@ -26,11 +43,9 @@ function renderImage(image, { width, height }) {
   }
 
   return (
-    <div
+    <Image
       className="displayImage"
-      style={{
-        backgroundImage: `url(${API_URL}/image/${image.id})`
-      }}
+      src={`${API_URL}/image/${image.id}`}
     />
   )
 }
