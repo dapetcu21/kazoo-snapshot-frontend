@@ -27,11 +27,7 @@ function renderImage(image, { width, height }) {
   if (!image) { return null; }
 
   if (image === 'qr') {
-    const urlComponents = window.location.href.split('/')
-    if (urlComponents[urlComponents.length - 1] === '') { urlComponents.pop(); }
-    urlComponents.pop()
-    const url = urlComponents.join('/')
-
+    const url = window.location.origin
     const size = Math.min(height * 0.8, width)
 
     return (
