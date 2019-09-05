@@ -61,8 +61,8 @@ function Collect() {
             <div className="dropzoneContainer">
               {
                 isDragActive ?
-                  <p>Trântește-o aici</p> :
-                  <p>{getText(state)}</p>
+                  <p className="dropzoneText">Trântește-o aici</p> :
+                  <p className="dropzoneText">{getText(state)}</p>
               }
             </div>
           </div>

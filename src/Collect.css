@@ -35,3 +35,8 @@
 
   font-size: 24px;
 }
+
+.dropzoneText {
+  margin: 16px;
+  text-align: center;
+}
