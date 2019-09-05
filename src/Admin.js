@@ -81,9 +81,25 @@ export default function Admin() {
       })
   }
 
+  const onMarkUsed = (id, used) => () => {
+    fetch(`${API_URL}/image/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ used }),
+    })
+      .then(checkResponse)
+      .then(res => res.json())
+      .then(() => {
+        setImages(images_ => images_.map(image => (image.id === id ? { ...image, used } : image)))
+      })
+  }
+
   const onShowImage = (id) => () => {
     fetch(`${API_URL}/show_image/${id}`, { method: 'POST' })
       .then(checkResponse)
+    onMarkUsed(id, true)()
   }
 
   return (
@@ -104,6 +120,9 @@ export default function Admin() {
                 onClick={onShowImage(image.id)}
               />
               <button className="adminImageDelete" onClick={onDeleteImage(image.id)}>Delete</button>
+              <button className="adminImageToggleUsed" onClick={onMarkUsed(image.id, !image.used)}>
+                {image.used ? 'Mark as unused' : 'Mark as used'}
+              </button>
             </div>
           )
         })}
